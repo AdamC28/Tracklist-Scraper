@@ -9,7 +9,6 @@ grabs useful data and passes it directly for track scraping.
 if a multitrack release is given, it has to dynamically scrape,
 repeating the process with an html session
 '''
-
 def scInitScrape(url):
     #gets source html from url
     source = requests.get(url).text
@@ -88,8 +87,9 @@ def trackScrape(nScript, trackNum):
     #retrieves release date from formatted time tag
     pubdate = (nScript.time.text).split('T')[0]
 
-    #print(f"{artistName} - {trackName}|{trackLength} ({pubdate})")
-    print(f"{trackNum}|{trackName}|{trackLength}")
+    #print(f"{artistName} - {trackName}{delimiter}{trackLength} ({pubdate})")
+    print(f"{trackNum}{delimiter}{trackName}{delimiter}{trackLength}")
+
 
 '''
 specifically for scraping tracklists from NTS Live mixes
@@ -105,10 +105,11 @@ def ntsSessionScrape(url):
     trackCount = 1
 
     for track in tracks:
-        print(f"{trackCount}|{track.find('span.track__artist')[0].text} - {track.find('span.track__title')[0].text}|")
+        print(f"{trackCount}{delimiter}{track.find('span.track__artist')[0].text} - {track.find('span.track__title')[0].text}")
         trackCount += 1
 
 #runtime starts here, takes basic user input in the form of a URL
+delimiter = "|"
 link = input("Enter URL:\n")
 #grabs website (host) name
 domain = urlparse(link).netloc
